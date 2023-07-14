@@ -1,9 +1,13 @@
-dofile(vim.g.base46_cache .. "lsp")
-require "nvchad_ui.lsp"
+-- dofile(vim.g.base46_cache .. "lsp")
+-- require "nvchad_ui.lsp"
 
 local M = {}
 local utils = require "core.utils"
 
+M.setup = function()
+  dofile(vim.g.base46_cache .. "lsp")
+  require "nvchad_ui.lsp"
+end
 -- export on_attach & capabilities for custom lspconfigs
 
 M.on_attach = function(client, bufnr)
@@ -41,24 +45,47 @@ M.capabilities.textDocument.completion.completionItem = {
   },
 }
 
-require("lspconfig").lua_ls.setup {
-  on_attach = M.on_attach,
-  capabilities = M.capabilities,
-
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/extensions/nvchad_types"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+-- require("lspconfig").lua_ls.setup {
+--   on_attach = M.on_attach,
+--   capabilities = M.capabilities,
+--
+--   settings = {
+--     Lua = {
+--       diagnostics = {
+--         globals = { "vim" },
+--       },
+--       workspace = {
+--         library = {
+--           [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+--           [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+--           [vim.fn.stdpath "data" .. "/lazy/extensions/nvchad_types"] = true,
+--           [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+--         },
+--         maxPreload = 100000,
+--         preloadFileSize = 10000,
+--       },
+--     },
+--   },
+-- }
+M.servers = {
+  lua_ls = {
+    on_attach = M.on_attach,
+    capabilities = M.capabilities,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
         },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
+        workspace = {
+          library = {
+            [vim.fn.expand "$VIMRUNTIME/lua"] = true,
+            [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+            [vim.fn.stdpath "data" .. "/lazy/extensions/nvchad_types"] = true,
+            [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+          },
+          maxPreload = 100000,
+          preloadFileSize = 10000,
+        },
       },
     },
   },

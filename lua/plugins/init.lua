@@ -145,8 +145,15 @@ local default_plugins = {
     init = function()
       require("core.utils").lazy_load "nvim-lspconfig"
     end,
-    config = function()
-      require "plugins.configs.lspconfig"
+    opts = require "plugins.configs.lspconfig",
+    config = function(_, opts)
+      opts.setup()
+      require("lspconfig").lua_ls.setup(opts.servers.lua_ls) --[[ {
+        on_attach = opts.on_attach,
+        capabilities = opts.capabilities,
+        settings = opts.servers.lua_ls.settings,
+      } ]]
+      -- require "plugins.configs.lspconfig"
     end,
   },
 
